@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 
 
-
-
 class MainActivity : AppCompatActivity(), StartFragment
 {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +36,20 @@ class MainActivity : AppCompatActivity(), StartFragment
         transaction.commit()
     }
 
+    override fun openFourthQuizFragment(previousNumber: Int) {
+        val quizFourthFragment: Fragment = FourthQuizFragment.newInstance(previousNumber)
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, quizFourthFragment)
+        transaction.commit()
+    }
+
+    override fun openFifthQuizFragment(previousNumber: Int) {
+        val quizFifthFragment: Fragment = FifthQuizFragment.newInstance(previousNumber)
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, quizFifthFragment)
+        transaction.commit()
+    }
+
 }
 
 interface StartFragment {
@@ -45,4 +57,6 @@ interface StartFragment {
     fun openFirstQuizFragment(previousNumber: Int)
     fun openSecondQuizFragment(previousNumber: Int)
     fun openThirdQuizFragment(previousNumber: Int)
+    fun openFourthQuizFragment(previousNumber: Int)
+    fun openFifthQuizFragment(previousNumber: Int)
 }
