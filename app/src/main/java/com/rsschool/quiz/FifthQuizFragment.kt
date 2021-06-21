@@ -15,16 +15,16 @@ class FifthQuizFragment : Fragment(){
     private var _binding: FifthFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private var nextButton: Button? = null
+    private var resultButton: Button? = null
     private var previousButton: Button? = null
 
     private var startFourthFragment: StartFragment? = null
-    //private var startFifthFragment: StartFragment? = null
+    private var startResultFragment: StartFragment? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         startFourthFragment = context as? StartFragment
-        //startFifthFragment = context as? StartFragment
+        startResultFragment = context as? StartFragment
     }
 
     override fun onCreateView(
@@ -48,15 +48,15 @@ class FifthQuizFragment : Fragment(){
         binding.option4.text = "Сова"
         binding.option5.text = "Корова"
 
-        nextButton = binding.nextButton
+        resultButton = binding.nextButton
         previousButton = binding.previousButton
 
         binding.nextButton.text = "Submit"
 
 
 
-        nextButton?.setOnClickListener {
-            // startFifthFragment?.openFifthQuizFragment(1)
+        resultButton?.setOnClickListener {
+            startResultFragment?.openResultFragment(1)
         }
 
         previousButton?.setOnClickListener {

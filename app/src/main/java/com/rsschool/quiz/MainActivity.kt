@@ -50,6 +50,13 @@ class MainActivity : AppCompatActivity(), StartFragment
         transaction.commit()
     }
 
+    override fun openResultFragment(previousNumber: Int) {
+        val quizResultFragment: Fragment = ResultFragment.newInstance(previousNumber)
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, quizResultFragment)
+        transaction.commit()
+    }
+
 }
 
 interface StartFragment {
@@ -59,4 +66,5 @@ interface StartFragment {
     fun openThirdQuizFragment(previousNumber: Int)
     fun openFourthQuizFragment(previousNumber: Int)
     fun openFifthQuizFragment(previousNumber: Int)
+    fun openResultFragment(previousNumber: Int)
 }
