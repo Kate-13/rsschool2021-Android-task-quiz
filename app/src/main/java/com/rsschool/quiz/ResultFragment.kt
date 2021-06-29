@@ -49,7 +49,7 @@ class ResultFragment : Fragment(){
         }
 
         backButton?.setOnClickListener {
-            startFirstFragment?.openFirstQuizFragment(1)
+            startFirstFragment?.openFirstQuizFragment()
         }
     }
 

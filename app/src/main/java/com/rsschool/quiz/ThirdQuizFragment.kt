@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.content.Context
+import android.content.SharedPreferences
 import android.widget.Button
+import android.widget.RadioButton
+import androidx.core.view.forEach
 import com.rsschool.quiz.databinding.ThirdFragmentBinding
+import kotlin.properties.Delegates
 
 
 class ThirdQuizFragment : Fragment(){
@@ -18,13 +22,21 @@ class ThirdQuizFragment : Fragment(){
     private var nextButton: Button? = null
     private var previousButton: Button? = null
 
-    private var startSecondFragment: StartFragment? = null
-    private var startFourthFragment: StartFragment? = null
+    private var startFragmen: StartFragment? = null
+
+    private var answer = ""
+    private var rightAnswer = ""
+    private var isRightAnswer = false
+    private var answerID: Int = 0
+
+    public val RB_PREFERENCES = "Radio_Button_Preferences"
+    public val RB_PREFERENCES_ID_THIRD_FRAGMENT = "RADIO_BUTTON_ID_THIRD_FRAGMENT"
+
+    private var savedRadioIndex: Int = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        startSecondFragment = context as? StartFragment
-        startFourthFragment = context as? StartFragment
+        startFragmen = context as? StartFragment
     }
 
     override fun onCreateView(
@@ -50,14 +62,44 @@ class ThirdQuizFragment : Fragment(){
 
         nextButton = binding.nextButton
         previousButton = binding.previousButton
+        nextButton?.isEnabled = false
 
+        val radioGroup = binding.radioGroup
+        val sharedPreferences: SharedPreferences = context?.getSharedPreferences(RB_PREFERENCES, Context.MODE_PRIVATE)
+            ?: throw IllegalArgumentException()
+        savedRadioIndex = sharedPreferences.getInt(RB_PREFERENCES_ID_THIRD_FRAGMENT, 0)
+        radioGroup.check(savedRadioIndex)
+
+        radioGroup?.forEach {
+            if ((it as RadioButton).isChecked) {
+                nextButton?.isEnabled = true
+                println("NextButton is true")
+            }
+        }
+
+        radioGroup?.setOnCheckedChangeListener { _, checkedId ->
+            isRightAnswer = false
+
+            radioGroup?.forEach {
+                if((it as RadioButton).isChecked)
+                    answer = it.text.toString()
+                nextButton?.isEnabled = true
+                answerID = checkedId
+                startFragmen?.savePreferences(RB_PREFERENCES_ID_THIRD_FRAGMENT, answerID)
+
+            }
+            if(answer == rightAnswer){
+                isRightAnswer = true
+                println("$answer is $isRightAnswer")
+            } else println("$answer is $isRightAnswer")
+        }
 
         nextButton?.setOnClickListener {
-            startFourthFragment?.openFourthQuizFragment(1)
+            startFragmen?.openFourthQuizFragment()
         }
 
         previousButton?.setOnClickListener {
-            startSecondFragment?.openSecondQuizFragment(1)
+            startFragmen?.openSecondQuizFragment()
         }
     }
 
@@ -69,15 +111,17 @@ class ThirdQuizFragment : Fragment(){
     companion object {
 
         @JvmStatic
-        fun newInstance(previousResult: Int): ThirdQuizFragment {
+        fun newInstance(): ThirdQuizFragment {
             val fragment = ThirdQuizFragment()
             val args = Bundle()
-            args.putInt(PREVIOUS_RESULT_KEY, previousResult)
+//            args.putInt(PREVIOUS_ANSWER, previousResult)
+//            args.putInt(PREVIOUS_ANSWER_FOR_SECOND, positionForSecond)
             fragment.arguments = args
             return fragment
         }
 
-        private const val PREVIOUS_RESULT_KEY = "PREVIOUS_RESULT"
+        private const val PREVIOUS_ANSWER = "PREVIOUS_RESULT"
+        private const val PREVIOUS_ANSWER_FOR_SECOND = "PREVIOUS_RESULT_FOR_SECOND"
     }
 
 }
