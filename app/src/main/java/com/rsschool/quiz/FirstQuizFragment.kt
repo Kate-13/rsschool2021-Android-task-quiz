@@ -28,10 +28,14 @@ class FirstQuizFragment : Fragment() {
     private var answerID: Int = 0
     private var rightAnswer = ""
     private var isRightAnswer = false
+    private var isRight: Int = 0
     private var startFragment: StartFragment? = null
     //private var anwersList: MutableList<Int> = mutableListOf()
     private var RB_PREFERENCES = "Radio_Button_Preferences"
     private var RB_PREFERENCES_ID = "RADIO_BUTTON_ID"
+
+    private var ANSWER_PREFERENCES = "IS_RIGHT_ANSWER_PREFERENCES"
+    private var IS_RIGHT_ANSWER_FIRST = "IS_RIGHT_ANSWER_FIRST"
 
     private var savedRadioIndex: Int = 0
 
@@ -99,13 +103,20 @@ class FirstQuizFragment : Fragment() {
                 answerID = checkedId
                 position = checkedAnswerPosition
 
-                startFragment?.savePreferences(RB_PREFERENCES_ID, answerID)
+                startFragment?.savePreferences(RB_PREFERENCES, RB_PREFERENCES_ID, answerID)
+
             }
 
             if (answer == rightAnswer) {
                 isRightAnswer = true
+                isRight = 1
                 println("$answer is $isRightAnswer")
-            } else println("$answer is $isRightAnswer")
+            } else {
+                isRight = 0
+                println("$answer is $isRightAnswer")
+            }
+
+            startFragment?.savePreferences(ANSWER_PREFERENCES, IS_RIGHT_ANSWER_FIRST, isRight)
         }
 //
 

@@ -27,9 +27,13 @@ class FourthQuizFragment : Fragment(){
     private var rightAnswer = ""
     private var isRightAnswer = false
     private var answerID: Int = 0
+    private var isRight: Int = 0
 
     val RB_PREFERENCES = "Radio_Button_Preferences"
     val RB_PREFERENCES_ID_FOURTH_FRAGMENT = "RADIO_BUTTON_ID_FOURTH_FRAGMENT"
+
+    private var ANSWER_PREFERENCES = "IS_RIGHT_ANSWER_PREFERENCES"
+    private var IS_RIGHT_ANSWER_FOURTH = "IS_RIGHT_ANSWER_FOURTH"
 
     private var savedRadioIndex: Int = 0
 
@@ -59,6 +63,8 @@ class FourthQuizFragment : Fragment(){
         binding.option4.text = "Сова"
         binding.option5.text = "Корова"
 
+        rightAnswer = "Петух"
+
         nextButton = binding.nextButton
         previousButton = binding.previousButton
         nextButton?.isEnabled = false
@@ -84,13 +90,17 @@ class FourthQuizFragment : Fragment(){
                     answer = it.text.toString()
                 nextButton?.isEnabled = true
                 answerID = checkedId
-                startFragment?.savePreferences(RB_PREFERENCES_ID_FOURTH_FRAGMENT, answerID)
+                startFragment?.savePreferences(RB_PREFERENCES, RB_PREFERENCES_ID_FOURTH_FRAGMENT, answerID)
 
             }
             if(answer == rightAnswer){
-                isRightAnswer = true
+                isRight = 1
                 println("$answer is $isRightAnswer")
-            } else println("$answer is $isRightAnswer")
+            } else {
+                isRight = 0
+                println("$answer is $isRightAnswer")
+            }
+            startFragment?.savePreferences(ANSWER_PREFERENCES, IS_RIGHT_ANSWER_FOURTH, isRight)
         }
 
         nextButton?.setOnClickListener {

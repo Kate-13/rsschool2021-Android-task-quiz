@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction
 class MainActivity : AppCompatActivity(), StartFragment
 {
     val RB_PREFERENCES = "Radio_Button_Preferences"
+    val IS_RIGHT_ANSWER_PREFERENCES = "IS_RIGHT_ANSWER_PREFERENCES"
 
 //    var anwersList: MutableList<Int> = mutableListOf(0, 0, 0, 0, 0)
 
@@ -73,9 +74,9 @@ class MainActivity : AppCompatActivity(), StartFragment
 //    startActivity(intent);
 //}
 
-    override fun savePreferences(key: String, value: Int) {
+    override fun savePreferences(name: String, key: String, value: Int) {
         val sharedPreferences: SharedPreferences? =
-            getSharedPreferences(RB_PREFERENCES, MODE_PRIVATE)
+            getSharedPreferences(name, MODE_PRIVATE)
         val editor = sharedPreferences?.edit()
         editor?.putInt(key, value)
         editor?.apply()
@@ -101,5 +102,5 @@ interface StartFragment {
     fun openFourthQuizFragment()
     fun openFifthQuizFragment()
     fun openResultFragment(previousResult: Int)
-    fun savePreferences(key: String, value: Int)
+    fun savePreferences(name: String, key: String, value: Int)
 }

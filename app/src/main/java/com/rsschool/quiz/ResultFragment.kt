@@ -15,6 +15,7 @@ class ResultFragment : Fragment(){
     private val binding get() = _binding!!
     private var exitButton: Button? = null
     private var backButton: Button? = null
+    private var result: Int = 0
 
     private var startFirstFragment: StartFragment? = null
 
@@ -40,9 +41,14 @@ class ResultFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.result.text = "Ваш результат: "
+
         backButton = binding.backButton
         exitButton = binding.exitButton
+
+        result  = arguments?.getInt(RESULT_KEY) ?: throw IllegalArgumentException()
+        println("result: $result")
+
+        binding.result.text = "Ваш результат: $result из 5"
 
         exitButton?.setOnClickListener {
             //finish()
@@ -61,15 +67,15 @@ class ResultFragment : Fragment(){
     companion object {
 
         @JvmStatic
-        fun newInstance(previousResult: Int): ResultFragment {
+        fun newInstance(result: Int): ResultFragment {
             val fragment = ResultFragment()
             val args = Bundle()
-            args.putInt(PREVIOUS_RESULT_KEY, previousResult)
+            args.putInt(RESULT_KEY, result)
             fragment.arguments = args
             return fragment
         }
 
-        private const val PREVIOUS_RESULT_KEY = "PREVIOUS_RESULT"
+        private const val RESULT_KEY = "RESULT"
     }
 
 }

@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.RadioButton
 import androidx.core.view.forEach
 import com.rsschool.quiz.databinding.FifthFragmentBinding
+import kotlin.collections.sum
 
 
 class FifthQuizFragment : Fragment(){
@@ -28,9 +29,13 @@ class FifthQuizFragment : Fragment(){
     private var rightAnswer = ""
     private var isRightAnswer = false
     private var answerID: Int = 0
+    private var isRight: Int = 0
 
     val RB_PREFERENCES = "Radio_Button_Preferences"
     val RB_PREFERENCES_ID_FIFTH_FRAGMENT = "RADIO_BUTTON_ID_FIFTH_FRAGMENT"
+
+    private var ANSWER_PREFERENCES = "IS_RIGHT_ANSWER_PREFERENCES"
+    private var IS_RIGHT_ANSWER_FIFTH = "IS_RIGHT_ANSWER_FIFTH"
 
     private var savedRadioIndex: Int = 0
 
@@ -59,6 +64,8 @@ class FifthQuizFragment : Fragment(){
         binding.option3.text = "Петух"
         binding.option4.text = "Сова"
         binding.option5.text = "Корова"
+
+        rightAnswer = "Сова"
 
         resultButton = binding.nextButton
         previousButton = binding.previousButton
@@ -90,17 +97,33 @@ class FifthQuizFragment : Fragment(){
                     answer = it.text.toString()
                 resultButton?.isEnabled = true
                 answerID = checkedId
-                startFragment?.savePreferences(RB_PREFERENCES_ID_FIFTH_FRAGMENT, answerID)
+                startFragment?.savePreferences(RB_PREFERENCES, RB_PREFERENCES_ID_FIFTH_FRAGMENT, answerID)
 
             }
             if(answer == rightAnswer){
-                isRightAnswer = true
+                isRight = 1
                 println("$answer is $isRightAnswer")
-            } else println("$answer is $isRightAnswer")
+            } else {
+                isRight = 0
+                println("$answer is $isRightAnswer")
+            }
+            startFragment?.savePreferences(ANSWER_PREFERENCES, IS_RIGHT_ANSWER_FIFTH, isRight)
+            println("ANSWER_PREFERENCES: $ANSWER_PREFERENCES")
         }
 
         resultButton?.setOnClickListener {
-            startResultFragment?.openResultFragment(1)
+            val answerPreferences: SharedPreferences = context?.getSharedPreferences(ANSWER_PREFERENCES, Context.MODE_PRIVATE)
+                ?: throw IllegalArgumentException()
+            val sharedPreferencesValues = answerPreferences.all.map{it.value}//(ANSWER_PREFERENCES, Context.MODE_PRIVATE)
+            println("sharedPreferencesValues: $sharedPreferencesValues")
+            var sum = 0
+            sharedPreferencesValues.forEach { el ->
+                if (el == 1){
+                    sum += 1
+                }
+                println("$sum")
+            }
+            startResultFragment?.openResultFragment(sum)
         }
 
         previousButton?.setOnClickListener {

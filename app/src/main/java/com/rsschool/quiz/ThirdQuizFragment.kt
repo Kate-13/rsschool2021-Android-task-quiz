@@ -22,21 +22,25 @@ class ThirdQuizFragment : Fragment(){
     private var nextButton: Button? = null
     private var previousButton: Button? = null
 
-    private var startFragmen: StartFragment? = null
+    private var startFragment: StartFragment? = null
 
     private var answer = ""
     private var rightAnswer = ""
     private var isRightAnswer = false
     private var answerID: Int = 0
+    private var isRight: Int = 0
 
-    public val RB_PREFERENCES = "Radio_Button_Preferences"
-    public val RB_PREFERENCES_ID_THIRD_FRAGMENT = "RADIO_BUTTON_ID_THIRD_FRAGMENT"
+    private val RB_PREFERENCES = "Radio_Button_Preferences"
+    private val RB_PREFERENCES_ID_THIRD_FRAGMENT = "RADIO_BUTTON_ID_THIRD_FRAGMENT"
+
+    private var ANSWER_PREFERENCES = "IS_RIGHT_ANSWER_PREFERENCES"
+    private var IS_RIGHT_ANSWER_THIRD = "IS_RIGHT_ANSWER_THIRD"
 
     private var savedRadioIndex: Int = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        startFragmen = context as? StartFragment
+        startFragment = context as? StartFragment
     }
 
     override fun onCreateView(
@@ -59,6 +63,8 @@ class ThirdQuizFragment : Fragment(){
         binding.option3.text = "Петух"
         binding.option4.text = "Сова"
         binding.option5.text = "Корова"
+
+        rightAnswer = "Корова"
 
         nextButton = binding.nextButton
         previousButton = binding.previousButton
@@ -85,21 +91,25 @@ class ThirdQuizFragment : Fragment(){
                     answer = it.text.toString()
                 nextButton?.isEnabled = true
                 answerID = checkedId
-                startFragmen?.savePreferences(RB_PREFERENCES_ID_THIRD_FRAGMENT, answerID)
+                startFragment?.savePreferences(RB_PREFERENCES, RB_PREFERENCES_ID_THIRD_FRAGMENT, answerID)
 
             }
             if(answer == rightAnswer){
-                isRightAnswer = true
+                isRight = 1
                 println("$answer is $isRightAnswer")
-            } else println("$answer is $isRightAnswer")
+            } else {
+                isRight = 0
+                println("$answer is $isRightAnswer")
+            }
+            startFragment?.savePreferences(ANSWER_PREFERENCES, IS_RIGHT_ANSWER_THIRD, isRight)
         }
 
         nextButton?.setOnClickListener {
-            startFragmen?.openFourthQuizFragment()
+            startFragment?.openFourthQuizFragment()
         }
 
         previousButton?.setOnClickListener {
-            startFragmen?.openSecondQuizFragment()
+            startFragment?.openSecondQuizFragment()
         }
     }
 
