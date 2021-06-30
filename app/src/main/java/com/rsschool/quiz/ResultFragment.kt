@@ -49,7 +49,7 @@ class ResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        context?.setTheme(R.style.ThemeQuizFirst)
+        context?.setTheme(R.style.ThemeQuizResult)
         startFragment?.setStatusBarTheme()
 
         _binding = ResultFragmentBinding.inflate(inflater, container, false)
