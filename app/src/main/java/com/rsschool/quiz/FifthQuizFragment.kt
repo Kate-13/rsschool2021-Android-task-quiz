@@ -24,18 +24,24 @@ class FifthQuizFragment : Fragment(){
 
     private var startFragment: StartFragment? = null
     private var startResultFragment: StartFragment? = null
-
+    private var question = ""
     private var answer = ""
     private var rightAnswer = ""
     private var isRightAnswer = false
     private var answerID: Int = 0
     private var isRight: Int = 0
+    private var answerList = mutableListOf<String?>()
+    private var textResult = ""
 
     val RB_PREFERENCES = "Radio_Button_Preferences"
     val RB_PREFERENCES_ID_FIFTH_FRAGMENT = "RADIO_BUTTON_ID_FIFTH_FRAGMENT"
 
     private var ANSWER_PREFERENCES = "IS_RIGHT_ANSWER_PREFERENCES"
     private var IS_RIGHT_ANSWER_FIFTH = "IS_RIGHT_ANSWER_FIFTH"
+
+    val ANSWERS = "ANSWERS"
+    private var QUESTION_FIFTH = "QUESTION_FIFTH"
+    private var ANSWER_FIFTH = "ANSWER_FIFTH"
 
     private var savedRadioIndex: Int = 0
 
@@ -66,6 +72,7 @@ class FifthQuizFragment : Fragment(){
         binding.option5.text = "Корова"
 
         rightAnswer = "Сова"
+        question = binding.question.text.toString()
 
         resultButton = binding.nextButton
         previousButton = binding.previousButton
@@ -112,6 +119,9 @@ class FifthQuizFragment : Fragment(){
         }
 
         resultButton?.setOnClickListener {
+            startFragment?.saveAnswerList(QUESTION_FIFTH, question)
+            startFragment?.saveAnswerList(ANSWER_FIFTH, answer)
+
             val answerPreferences: SharedPreferences = context?.getSharedPreferences(ANSWER_PREFERENCES, Context.MODE_PRIVATE)
                 ?: throw IllegalArgumentException()
             val sharedPreferencesValues = answerPreferences.all.map{it.value}//(ANSWER_PREFERENCES, Context.MODE_PRIVATE)
@@ -123,7 +133,30 @@ class FifthQuizFragment : Fragment(){
                 }
                 println("$sum")
             }
-            startResultFragment?.openResultFragment(sum)
+
+            getList("QUESTION_FIRST")
+            getList("ANSWER_FIRST")
+            getList("QUESTION_SECOND")
+            getList("ANSWER_SECOND")
+            getList("QUESTION_THIRD")
+            getList("ANSWER_THIRD")
+            getList("QUESTION_FOURTH")
+            getList("ANSWER_FOURTH")
+            getList("QUESTION_FIFTH")
+            getList("ANSWER_FIFTH")
+
+            var resultList = ""
+            answerList?.forEachIndexed { ind, el->
+                if(ind % 2 == 0) {
+                    val qNumber = ind/2 + 1
+                    resultList += "Question $qNumber: $el\n"
+                } else resultList += "Your answer: $el\n\n"
+            }
+
+            val resultTextList = "$textResult\n$resultList"
+            println("result list: $resultTextList")
+
+            startResultFragment?.openResultFragment(sum, resultTextList)
         }
 
         previousButton?.setOnClickListener {
@@ -134,6 +167,13 @@ class FifthQuizFragment : Fragment(){
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun getList(key: String) {
+        val answerPreferences: SharedPreferences = context?.getSharedPreferences(ANSWERS, Context.MODE_PRIVATE)
+            ?: throw IllegalArgumentException()
+        val sharedPreferencesValues = answerPreferences.getString(key, "")
+        answerList.add(sharedPreferencesValues)
     }
 
     companion object {

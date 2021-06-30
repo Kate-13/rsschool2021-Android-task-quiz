@@ -23,7 +23,7 @@ class ThirdQuizFragment : Fragment(){
     private var previousButton: Button? = null
 
     private var startFragment: StartFragment? = null
-
+    private var question = ""
     private var answer = ""
     private var rightAnswer = ""
     private var isRightAnswer = false
@@ -35,6 +35,9 @@ class ThirdQuizFragment : Fragment(){
 
     private var ANSWER_PREFERENCES = "IS_RIGHT_ANSWER_PREFERENCES"
     private var IS_RIGHT_ANSWER_THIRD = "IS_RIGHT_ANSWER_THIRD"
+
+    private var QUESTION_THIRD = "QUESTION_THIRD"
+    private var ANSWER_THIRD = "ANSWER_THIRD"
 
     private var savedRadioIndex: Int = 0
 
@@ -65,6 +68,7 @@ class ThirdQuizFragment : Fragment(){
         binding.option5.text = "Корова"
 
         rightAnswer = "Корова"
+        question = binding.question.text.toString()
 
         nextButton = binding.nextButton
         previousButton = binding.previousButton
@@ -105,6 +109,8 @@ class ThirdQuizFragment : Fragment(){
         }
 
         nextButton?.setOnClickListener {
+            startFragment?.saveAnswerList(QUESTION_THIRD, question)
+            startFragment?.saveAnswerList(ANSWER_THIRD, answer)
             startFragment?.openFourthQuizFragment()
         }
 

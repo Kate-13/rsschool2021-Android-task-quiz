@@ -22,6 +22,7 @@ class FirstQuizFragment : Fragment() {
     private val binding get() = _binding!!
     private var nextButton: Button? = null
     private var previousButton: Button? = null
+    private var question = ""
     private var answer = ""
     private var position by Delegates.notNull<Int>()
 
@@ -36,6 +37,9 @@ class FirstQuizFragment : Fragment() {
 
     private var ANSWER_PREFERENCES = "IS_RIGHT_ANSWER_PREFERENCES"
     private var IS_RIGHT_ANSWER_FIRST = "IS_RIGHT_ANSWER_FIRST"
+
+    private var QUESTION_FIRST = "QUESTION_FIRST"
+    private var ANSWER_FIRST = "ANSWER_FIRST"
 
     private var savedRadioIndex: Int = 0
 
@@ -71,7 +75,9 @@ class FirstQuizFragment : Fragment() {
         previousButton = binding.previousButton
         previousButton?.isEnabled = false
         nextButton?.isEnabled = false
+        question = binding.question.text.toString()
         rightAnswer = "Кот"
+
 
         val radioGroup = binding.radioGroup
 
@@ -121,6 +127,8 @@ class FirstQuizFragment : Fragment() {
 //
 
         nextButton?.setOnClickListener {
+            startFragment?.saveAnswerList(QUESTION_FIRST, question)
+            startFragment?.saveAnswerList(ANSWER_FIRST, answer)
             startFragment?.openSecondQuizFragment()
         }
 

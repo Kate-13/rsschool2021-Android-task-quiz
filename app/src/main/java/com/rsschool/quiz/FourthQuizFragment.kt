@@ -22,7 +22,7 @@ class FourthQuizFragment : Fragment(){
     private var previousButton: Button? = null
 
     private var startFragment: StartFragment? = null
-
+    private var question = ""
     private var answer = ""
     private var rightAnswer = ""
     private var isRightAnswer = false
@@ -34,6 +34,9 @@ class FourthQuizFragment : Fragment(){
 
     private var ANSWER_PREFERENCES = "IS_RIGHT_ANSWER_PREFERENCES"
     private var IS_RIGHT_ANSWER_FOURTH = "IS_RIGHT_ANSWER_FOURTH"
+
+    private var QUESTION_FOURTH = "QUESTION_FOURTH"
+    private var ANSWER_FOURTH = "ANSWER_FOURTH"
 
     private var savedRadioIndex: Int = 0
 
@@ -64,6 +67,7 @@ class FourthQuizFragment : Fragment(){
         binding.option5.text = "Корова"
 
         rightAnswer = "Петух"
+        question = binding.question.text.toString()
 
         nextButton = binding.nextButton
         previousButton = binding.previousButton
@@ -104,6 +108,8 @@ class FourthQuizFragment : Fragment(){
         }
 
         nextButton?.setOnClickListener {
+            startFragment?.saveAnswerList(QUESTION_FOURTH, question)
+            startFragment?.saveAnswerList(ANSWER_FOURTH, answer)
             startFragment?.openFifthQuizFragment()
         }
 

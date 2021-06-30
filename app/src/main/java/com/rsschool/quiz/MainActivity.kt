@@ -14,9 +14,9 @@ import androidx.fragment.app.FragmentTransaction
 class MainActivity : AppCompatActivity(), StartFragment
 {
     val RB_PREFERENCES = "Radio_Button_Preferences"
-    val IS_RIGHT_ANSWER_PREFERENCES = "IS_RIGHT_ANSWER_PREFERENCES"
+    val ANSWERS = "ANSWERS"
 
-//    var anwersList: MutableList<Int> = mutableListOf(0, 0, 0, 0, 0)
+    var answerList = mutableSetOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,19 +60,13 @@ class MainActivity : AppCompatActivity(), StartFragment
         transaction.commit()
     }
 
-    override fun openResultFragment(previousResult: Int) {
-        val quizResultFragment: Fragment = ResultFragment.newInstance(previousResult)
+    override fun openResultFragment(result: Int, resultTextList: String) {
+        val quizResultFragment: Fragment = ResultFragment.newInstance(result, resultTextList)
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, quizResultFragment)
         transaction.commit()
     }
 
-//    override fun onClick(v: View) {
-//    val intent = Intent(this, MainActivity.class)
-//    intent.putExtra("fname", etFName.getText().toString())
-//    intent.putExtra("lname", etLName.getText().toString())
-//    startActivity(intent);
-//}
 
     override fun savePreferences(name: String, key: String, value: Int) {
         val sharedPreferences: SharedPreferences? =
@@ -83,15 +77,38 @@ class MainActivity : AppCompatActivity(), StartFragment
         println("Saved $key, $value")
     }
 
-    override fun onDestroy() {
-        val sharedPreferences: SharedPreferences? = getSharedPreferences(RB_PREFERENCES, MODE_PRIVATE)
+     override fun saveAnswerList(key: String, answer: String) {
+        val sharedPreferences: SharedPreferences? =
+            getSharedPreferences(ANSWERS, MODE_PRIVATE)
+         answerList.add(answer)
         val editor = sharedPreferences?.edit()
-        editor?.remove("RB_PREFERENCES_ID")
-        editor?.clear()
+        //editor?.putStringSet(key, answerList)
+         editor?.putString(key, answer)
         editor?.apply()
+        println("Saved $key, $answer")
+    }
+
+    override fun onDestroy() {
+//        val sharedPreferences: SharedPreferences? = getSharedPreferences(RB_PREFERENCES, MODE_PRIVATE)
+//        val editor = sharedPreferences?.edit()
+//        editor?.remove("RB_PREFERENCES_ID")
+//        editor?.clear()
+//        editor?.apply()
+
+        clearAnswerList(RB_PREFERENCES, "RB_PREFERENCES_ID")
+        clearAnswerList(ANSWERS, "ANSWER_FIRST")
 
         super.onDestroy()
     }
+
+    fun clearAnswerList(name: String, key: String) {
+        val sharedPreferences: SharedPreferences? = getSharedPreferences(name, MODE_PRIVATE)
+        val editor = sharedPreferences?.edit()
+        editor?.remove(key)
+        editor?.clear()
+        editor?.apply()
+    }
+
 
 }
 
@@ -101,6 +118,7 @@ interface StartFragment {
     fun openThirdQuizFragment()
     fun openFourthQuizFragment()
     fun openFifthQuizFragment()
-    fun openResultFragment(previousResult: Int)
+    fun openResultFragment(result: Int, resultTextList: String)
     fun savePreferences(name: String, key: String, value: Int)
+    fun saveAnswerList(key: String, answer: String)
 }
