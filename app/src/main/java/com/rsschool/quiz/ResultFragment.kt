@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,8 +34,6 @@ class ResultFragment : Fragment() {
 
     private var RB_PREFERENCES = "Radio_Button_Preferences"
 
-    //val ANSWERS = "ANSWERS"
-
     private var startFragment: StartFragment? = null
 
 
@@ -49,6 +48,9 @@ class ResultFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        context?.setTheme(R.style.ThemeQuizFirst)
+        startFragment?.setStatusBarTheme()
 
         _binding = ResultFragmentBinding.inflate(inflater, container, false)
         val view = binding.root

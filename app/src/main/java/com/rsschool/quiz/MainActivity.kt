@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity(), StartFragment
     var answerList = mutableSetOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //setTheme(R.style.ThemeQuiz)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         openFirstQuizFragment()
@@ -88,6 +90,14 @@ class MainActivity : AppCompatActivity(), StartFragment
         println("Saved $key, $answer")
     }
 
+    override fun setStatusBarTheme() {
+        val typedValue = TypedValue()
+        val currentTheme = theme
+        currentTheme?.resolveAttribute(android.R.attr.statusBarColor, typedValue, true)
+        val window = this.window
+        window?.statusBarColor = typedValue.data
+    }
+
     override fun onDestroy() {
 //        val sharedPreferences: SharedPreferences? = getSharedPreferences(RB_PREFERENCES, MODE_PRIVATE)
 //        val editor = sharedPreferences?.edit()
@@ -121,4 +131,5 @@ interface StartFragment {
     fun openResultFragment(result: Int, resultTextList: String)
     fun savePreferences(name: String, key: String, value: Int)
     fun saveAnswerList(key: String, answer: String)
+    fun setStatusBarTheme()
 }

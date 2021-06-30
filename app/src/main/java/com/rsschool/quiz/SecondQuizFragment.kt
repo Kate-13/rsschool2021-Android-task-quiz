@@ -3,6 +3,7 @@ package com.rsschool.quiz
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import com.rsschool.quiz.databinding.SecondFragmentBinding
 import kotlin.properties.Delegates
+import kotlin.reflect.typeOf
 
 
 class SecondQuizFragment : Fragment(){
@@ -54,6 +56,13 @@ class SecondQuizFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        context?.setTheme(R.style.ThemeQuizSecond)
+        startFragment?.setStatusBarTheme()
+//        val currentTheme = context?.theme
+//        currentTheme?.resolveAttribute(android.R.attr.statusBarColor, typedValue, true)
+//        val window = activity?.window
+//        window?.statusBarColor = typedValue.data
 
         _binding = SecondFragmentBinding.inflate(inflater, container, false)
         val view = binding.root

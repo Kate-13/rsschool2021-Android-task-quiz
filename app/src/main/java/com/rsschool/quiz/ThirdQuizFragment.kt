@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.TypedValue
 import android.widget.Button
 import android.widget.RadioButton
 import androidx.core.view.forEach
@@ -51,6 +52,9 @@ class ThirdQuizFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        context?.setTheme(R.style.ThemeQuizThird)
+        startFragment?.setStatusBarTheme()
 
         _binding = ThirdFragmentBinding.inflate(inflater, container, false)
         val view = binding.root

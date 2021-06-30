@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,6 @@ class FirstQuizFragment : Fragment() {
 
     private var savedRadioIndex: Int = 0
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         startFragment = context as? StartFragment
@@ -55,6 +55,9 @@ class FirstQuizFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        context?.setTheme(R.style.ThemeQuizFirst)
+        startFragment?.setStatusBarTheme()
 
         _binding = FirstFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
