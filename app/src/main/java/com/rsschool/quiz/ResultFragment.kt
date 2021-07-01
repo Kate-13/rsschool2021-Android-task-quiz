@@ -85,7 +85,7 @@ class ResultFragment : Fragment() {
             editor?.apply()
 
             getActivity()?.finish()
-            exitProcess(0)
+            //exitProcess(0)
         }
 
         backButton?.setOnClickListener {
