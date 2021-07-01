@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.TypedValue
 import android.widget.Button
 import android.widget.RadioButton
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.forEach
 import com.rsschool.quiz.databinding.FourthFragmentBinding
 
@@ -40,6 +40,8 @@ class FourthQuizFragment : Fragment(){
     private var ANSWER_FOURTH = "ANSWER_FOURTH"
 
     private var savedRadioIndex: Int = 0
+
+    private var toolbar: Toolbar? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -76,6 +78,7 @@ class FourthQuizFragment : Fragment(){
         nextButton = binding.nextButton
         previousButton = binding.previousButton
         nextButton?.isEnabled = false
+        toolbar = binding.toolbar
 
         val radioGroup = binding.radioGroup
         val sharedPreferences: SharedPreferences = context?.getSharedPreferences(RB_PREFERENCES, Context.MODE_PRIVATE)
@@ -86,7 +89,7 @@ class FourthQuizFragment : Fragment(){
         radioGroup?.forEach {
             if ((it as RadioButton).isChecked) {
                 nextButton?.isEnabled = true
-                println("NextButton is true")
+                answer = it.text.toString()
             }
         }
 
@@ -103,10 +106,8 @@ class FourthQuizFragment : Fragment(){
             }
             if(answer == rightAnswer){
                 isRight = 1
-                println("$answer is $isRightAnswer")
             } else {
                 isRight = 0
-                println("$answer is $isRightAnswer")
             }
             startFragment?.savePreferences(ANSWER_PREFERENCES, IS_RIGHT_ANSWER_FOURTH, isRight)
         }
@@ -120,25 +121,14 @@ class FourthQuizFragment : Fragment(){
         previousButton?.setOnClickListener {
             startFragment?.openThirdQuizFragment()
         }
+
+        toolbar?.setNavigationOnClickListener {
+            startFragment?.openThirdQuizFragment()
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(): FourthQuizFragment {
-            val fragment = FourthQuizFragment()
-            val args = Bundle()
-            //args.putInt(PREVIOUS_RESULT_KEY, previousResult)
-            fragment.arguments = args
-            return fragment
-        }
-
-        private const val PREVIOUS_RESULT_KEY = "PREVIOUS_RESULT"
-    }
-
 }

@@ -1,20 +1,18 @@
 package com.rsschool.quiz
 
-import android.content.ActivityNotFoundException
+
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.rsschool.quiz.databinding.ResultFragmentBinding
-import java.util.ArrayList
+import kotlin.system.exitProcess
 
 
 class ResultFragment : Fragment() {
@@ -24,9 +22,6 @@ class ResultFragment : Fragment() {
     private var exitButton: Button? = null
     private var backButton: Button? = null
     private var shareButton: Button? = null
-    //private var answerList = mutableListOf<String?>()
-    //private var answerList = mutableSetOf<String>()
-    //private var answerList = "false"
 
     private var resultCount: Int = 0
     private var textResult = ""
@@ -66,53 +61,31 @@ class ResultFragment : Fragment() {
 
         resultCount = arguments?.getInt(RESULT_KEY) ?: throw IllegalArgumentException()
 
-        resultTextList = arguments?.getString(RESULT_LIST) ?: throw IllegalArgumentException()
-
         binding.result.text = "Ваш результат: $resultCount из 5"
-        textResult = "Ваш результат: $resultCount из 5"
+        textResult = "Ваш результат: $resultCount из 5\n\n"
+
+        resultTextList = textResult + arguments?.getString(RESULT_LIST) ?: throw IllegalArgumentException()
 
         shareButton?.setOnClickListener {
-
-//            getList("QUESTION_FIRST")
-//            getList("ANSWER_FIRST")
-//            getList("QUESTION_SECOND")
-//            getList("ANSWER_SECOND")
-//            getList("QUESTION_THIRD")
-//            getList("ANSWER_THIRD")
-//            getList("QUESTION_FOURTH")
-//            getList("ANSWER_FOURTH")
-//            getList("QUESTION_FIFTH")
-//            getList("ANSWER_FIFTH")
-//
-//            var resultList = ""
-//            answerList?.forEachIndexed { ind, el->
-//                 if(ind % 2 == 0) {
-//                     val qNumber = ind/2 + 1
-//                     resultList += "Question $qNumber: $el\n"
-//                 } else resultList += "Your answer: $el\n\n"
-//            }
-//
-//            val resultTextList = "$textResult\n$resultList"
-//            println("result list: $resultTextList")
 
             val emailIntent = Intent(Intent.ACTION_SEND)
             emailIntent.putExtra(Intent.EXTRA_TEXT, resultTextList)
             emailIntent.setType("text/plain")
-
-            //try {
             startActivity(Intent.createChooser(emailIntent, "Choose application"))
-
-//            } catch (ex: ActivityNotFoundException) {
-//                Toast.makeText(requireContext(), "There is no email client installed.", Toast.LENGTH_SHORT).show()
-//            }
-
-            //if(emailIntent.resolveActivity(getPackageManager()) != null){
-            //startActivity(emailIntent)
-            //}
         }
 
         exitButton?.setOnClickListener {
-            //finish()
+            val sharedPreferences: SharedPreferences? = context?.getSharedPreferences(
+                RB_PREFERENCES,
+                AppCompatActivity.MODE_PRIVATE
+            )
+            val editor = sharedPreferences?.edit()
+            editor?.remove("RB_PREFERENCES_ID")
+            editor?.clear()
+            editor?.apply()
+
+            getActivity()?.finish()
+            exitProcess(0)
         }
 
         backButton?.setOnClickListener {
@@ -133,13 +106,6 @@ class ResultFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-//    fun getList(key: String) {
-//        val answerPreferences: SharedPreferences = context?.getSharedPreferences(ANSWERS, Context.MODE_PRIVATE)
-//            ?: throw IllegalArgumentException()
-//        val sharedPreferencesValues = answerPreferences.getString(key, "")
-//        answerList.add(sharedPreferencesValues)
-//    }
 
     companion object {
 

@@ -1,12 +1,9 @@
 package com.rsschool.quiz
 
-//import android.R
-import android.content.Context
-import android.content.Intent
+
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -20,7 +17,6 @@ class MainActivity : AppCompatActivity(), StartFragment
     var answerList = mutableSetOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //setTheme(R.style.ThemeQuiz)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         openFirstQuizFragment()
@@ -28,37 +24,32 @@ class MainActivity : AppCompatActivity(), StartFragment
 
 
     override fun openFirstQuizFragment() {
-        val quizFragment: Fragment = FirstQuizFragment.newInstance()
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, quizFragment)
+        transaction.replace(R.id.container, FirstQuizFragment())
         transaction.commit()
     }
 
     override fun openSecondQuizFragment() {
-        val quizSecondFragment: Fragment = SecondQuizFragment.newInstance()
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, quizSecondFragment)
+        transaction.replace(R.id.container, SecondQuizFragment())
         transaction.commit()
     }
 
     override fun openThirdQuizFragment() {
-        val quizThirdFragment: Fragment = ThirdQuizFragment.newInstance()
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, quizThirdFragment)
+        transaction.replace(R.id.container, ThirdQuizFragment())
         transaction.commit()
     }
 
     override fun openFourthQuizFragment() {
-        val quizFourthFragment: Fragment = FourthQuizFragment.newInstance()
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, quizFourthFragment)
+        transaction.replace(R.id.container, FourthQuizFragment())
         transaction.commit()
     }
 
     override fun openFifthQuizFragment() {
-        val quizFifthFragment: Fragment = FifthQuizFragment.newInstance()
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, quizFifthFragment)
+        transaction.replace(R.id.container, FifthQuizFragment())
         transaction.commit()
     }
 
@@ -76,7 +67,6 @@ class MainActivity : AppCompatActivity(), StartFragment
         val editor = sharedPreferences?.edit()
         editor?.putInt(key, value)
         editor?.apply()
-        println("Saved $key, $value")
     }
 
      override fun saveAnswerList(key: String, answer: String) {
@@ -84,11 +74,9 @@ class MainActivity : AppCompatActivity(), StartFragment
             getSharedPreferences(ANSWERS, MODE_PRIVATE)
          answerList.add(answer)
         val editor = sharedPreferences?.edit()
-        //editor?.putStringSet(key, answerList)
          editor?.putString(key, answer)
-        editor?.apply()
-        println("Saved $key, $answer")
-    }
+         editor?.apply()
+     }
 
     override fun setStatusBarTheme() {
         val typedValue = TypedValue()
@@ -99,12 +87,6 @@ class MainActivity : AppCompatActivity(), StartFragment
     }
 
     override fun onDestroy() {
-//        val sharedPreferences: SharedPreferences? = getSharedPreferences(RB_PREFERENCES, MODE_PRIVATE)
-//        val editor = sharedPreferences?.edit()
-//        editor?.remove("RB_PREFERENCES_ID")
-//        editor?.clear()
-//        editor?.apply()
-
         clearAnswerList(RB_PREFERENCES, "RB_PREFERENCES_ID")
         clearAnswerList(ANSWERS, "ANSWER_FIRST")
 
@@ -118,7 +100,6 @@ class MainActivity : AppCompatActivity(), StartFragment
         editor?.clear()
         editor?.apply()
     }
-
 
 }
 

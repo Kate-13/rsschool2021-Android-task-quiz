@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.TypedValue
 import android.widget.Button
 import android.widget.RadioButton
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.forEach
 import com.rsschool.quiz.databinding.ThirdFragmentBinding
-import kotlin.properties.Delegates
+
 
 
 class ThirdQuizFragment : Fragment(){
@@ -42,6 +42,8 @@ class ThirdQuizFragment : Fragment(){
 
     private var savedRadioIndex: Int = 0
 
+    private var toolbar: Toolbar? = null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         startFragment = context as? StartFragment
@@ -59,7 +61,6 @@ class ThirdQuizFragment : Fragment(){
         _binding = ThirdFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
-        //return inflater.inflate(R.layout.fragment_quiz, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,6 +78,7 @@ class ThirdQuizFragment : Fragment(){
         nextButton = binding.nextButton
         previousButton = binding.previousButton
         nextButton?.isEnabled = false
+        toolbar = binding.toolbar
 
         val radioGroup = binding.radioGroup
         val sharedPreferences: SharedPreferences = context?.getSharedPreferences(RB_PREFERENCES, Context.MODE_PRIVATE)
@@ -87,7 +89,7 @@ class ThirdQuizFragment : Fragment(){
         radioGroup?.forEach {
             if ((it as RadioButton).isChecked) {
                 nextButton?.isEnabled = true
-                println("NextButton is true")
+                answer = it.text.toString()
             }
         }
 
@@ -104,10 +106,8 @@ class ThirdQuizFragment : Fragment(){
             }
             if(answer == rightAnswer){
                 isRight = 1
-                println("$answer is $isRightAnswer")
             } else {
                 isRight = 0
-                println("$answer is $isRightAnswer")
             }
             startFragment?.savePreferences(ANSWER_PREFERENCES, IS_RIGHT_ANSWER_THIRD, isRight)
         }
@@ -121,6 +121,10 @@ class ThirdQuizFragment : Fragment(){
         previousButton?.setOnClickListener {
             startFragment?.openSecondQuizFragment()
         }
+
+        toolbar?.setNavigationOnClickListener {
+            startFragment?.openSecondQuizFragment()
+        }
     }
 
     override fun onDestroyView() {
@@ -128,20 +132,5 @@ class ThirdQuizFragment : Fragment(){
         _binding = null
     }
 
-    companion object {
-
-        @JvmStatic
-        fun newInstance(): ThirdQuizFragment {
-            val fragment = ThirdQuizFragment()
-            val args = Bundle()
-//            args.putInt(PREVIOUS_ANSWER, previousResult)
-//            args.putInt(PREVIOUS_ANSWER_FOR_SECOND, positionForSecond)
-            fragment.arguments = args
-            return fragment
-        }
-
-        private const val PREVIOUS_ANSWER = "PREVIOUS_RESULT"
-        private const val PREVIOUS_ANSWER_FOR_SECOND = "PREVIOUS_RESULT_FOR_SECOND"
-    }
 
 }

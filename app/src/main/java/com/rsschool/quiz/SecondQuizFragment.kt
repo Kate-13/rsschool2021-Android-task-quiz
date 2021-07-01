@@ -3,18 +3,15 @@ package com.rsschool.quiz
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import com.rsschool.quiz.databinding.SecondFragmentBinding
-import kotlin.properties.Delegates
-import kotlin.reflect.typeOf
 
 
 class SecondQuizFragment : Fragment(){
@@ -42,7 +39,7 @@ class SecondQuizFragment : Fragment(){
 
     private var savedRadioIndex: Int = 0
 
-    //private var previousToolbar: navigation? = null
+    private var toolbar: Toolbar? = null
 
     private var startFragment: StartFragment? = null
 
@@ -59,10 +56,6 @@ class SecondQuizFragment : Fragment(){
 
         context?.setTheme(R.style.ThemeQuizSecond)
         startFragment?.setStatusBarTheme()
-//        val currentTheme = context?.theme
-//        currentTheme?.resolveAttribute(android.R.attr.statusBarColor, typedValue, true)
-//        val window = activity?.window
-//        window?.statusBarColor = typedValue.data
 
         _binding = SecondFragmentBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -81,21 +74,23 @@ class SecondQuizFragment : Fragment(){
         rightAnswer = "Собака"
         question = binding.question.text.toString()
 
+        toolbar = binding.toolbar
+
         nextButton = binding.nextButton
         previousButton = binding.previousButton
         nextButton?.isEnabled = false
-        //previousToolbar = binding.toolbar
         val radioGroup = binding.radioGroup
 
-        val sharedPreferences: SharedPreferences = context?.getSharedPreferences(RB_PREFERENCES, Context.MODE_PRIVATE)
-            ?: throw IllegalArgumentException()
+        val sharedPreferences: SharedPreferences =
+            context?.getSharedPreferences(RB_PREFERENCES, Context.MODE_PRIVATE)
+                ?: throw IllegalArgumentException()
         savedRadioIndex = sharedPreferences.getInt(RB_PREFERENCES_ID_SECOND_FRAGMENT, 0)
         radioGroup.check(savedRadioIndex)
 
         radioGroup?.forEach {
             if ((it as RadioButton).isChecked) {
                 nextButton?.isEnabled = true
-                println("NextButton is true")
+                answer = it.text.toString()
             }
         }
 
@@ -103,19 +98,17 @@ class SecondQuizFragment : Fragment(){
             isRightAnswer = false
 
             radioGroup?.forEach {
-                if((it as RadioButton).isChecked)
+                if ((it as RadioButton).isChecked)
                     answer = it.text.toString()
-                nextButton?.isEnabled = true
-                answerID = checkedId
-                startFragment?.savePreferences(RB_PREFERENCES,RB_PREFERENCES_ID_SECOND_FRAGMENT, answerID)
-
+                    nextButton?.isEnabled = true
+                    answerID = checkedId
+                    startFragment?.savePreferences(RB_PREFERENCES,RB_PREFERENCES_ID_SECOND_FRAGMENT,answerID)
             }
-            if(answer == rightAnswer){
+
+            if (answer == rightAnswer) {
                 isRight = 1
-                println("$answer is $isRightAnswer")
             } else {
                 isRight = 0
-                println("$answer is $isRightAnswer")
             }
             startFragment?.savePreferences(ANSWER_PREFERENCES, IS_RIGHT_ANSWER_SECOND, isRight)
         }
@@ -129,26 +122,15 @@ class SecondQuizFragment : Fragment(){
         previousButton?.setOnClickListener {
             startFragment?.openFirstQuizFragment()
         }
+
+        toolbar?.setNavigationOnClickListener {
+            startFragment?.openFirstQuizFragment()
+        }
     }
 
-    override fun onDestroyView() {
+        override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(): SecondQuizFragment {
-            val fragment = SecondQuizFragment()
-            val args = Bundle()
-//          args.putInt(PREVIOUS_ANSWER, previousAnswer)
-            fragment.arguments = args
-            return fragment
-        }
-
-        private const val PREVIOUS_ANSWER = "PREVIOUS_RESULT"
-
     }
 
 }
