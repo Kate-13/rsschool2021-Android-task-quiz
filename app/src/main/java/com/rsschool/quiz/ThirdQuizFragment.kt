@@ -65,14 +65,14 @@ class ThirdQuizFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.question.text = "Какое животное говорит Му?"
-        binding.option1.text = "Кот"
-        binding.option2.text = "Собака"
-        binding.option3.text = "Петух"
-        binding.option4.text = "Сова"
-        binding.option5.text = "Корова"
+        binding.question.text = "Antarctica has the worlds largest?"
+        binding.option1.text = "Desert"
+        binding.option2.text = "Mountains"
+        binding.option3.text = "Volcano"
+        binding.option4.text = "Lake"
+        binding.option5.text = "River"
 
-        rightAnswer = "Корова"
+        rightAnswer = "Desert"
         question = binding.question.text.toString()
 
         nextButton = binding.nextButton

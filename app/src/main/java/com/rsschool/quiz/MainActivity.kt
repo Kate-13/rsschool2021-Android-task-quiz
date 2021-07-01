@@ -7,10 +7,12 @@ import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.rsschool.quiz.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity(), StartFragment
 {
+    private lateinit var binding: ActivityMainBinding
     val RB_PREFERENCES = "Radio_Button_Preferences"
     val ANSWERS = "ANSWERS"
 
@@ -18,10 +20,11 @@ class MainActivity : AppCompatActivity(), StartFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
         openFirstQuizFragment()
     }
-
 
     override fun openFirstQuizFragment() {
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()

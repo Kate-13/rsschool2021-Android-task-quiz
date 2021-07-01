@@ -70,14 +70,14 @@ class FifthQuizFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.question.text = "Какое животное говорит ууу?"
-        binding.option1.text = "Кот"
-        binding.option2.text = "Собака"
-        binding.option3.text = "Петух"
-        binding.option4.text = "Сова"
-        binding.option5.text = "Корова"
+        binding.question.text = "When did humans first SEE Antarctica?"
+        binding.option1.text = "500 B.C."
+        binding.option2.text = "1000 A.D."
+        binding.option3.text = "1520 A.D."
+        binding.option4.text = "1820 A.D."
+        binding.option5.text = "1313 A.D."
 
-        rightAnswer = "Сова"
+        rightAnswer = "1820 A.D."
         question = binding.question.text.toString()
 
         resultButton = binding.nextButton

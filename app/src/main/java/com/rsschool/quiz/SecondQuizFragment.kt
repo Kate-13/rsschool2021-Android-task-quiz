@@ -64,14 +64,14 @@ class SecondQuizFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.question.text = "Какое животное говорит Гав?"
-        binding.option1.text = "Кот"
-        binding.option2.text = "Собака"
-        binding.option3.text = "Петух"
-        binding.option4.text = "Сова"
-        binding.option5.text = "Корова"
+        binding.question.text = "What are the native people of Antarctica called?"
+        binding.option1.text = "Antarcticans"
+        binding.option2.text = "South Polians"
+        binding.option3.text = "Americans"
+        binding.option4.text = "Russians"
+        binding.option5.text = "There are no native people of Antarctica"
 
-        rightAnswer = "Собака"
+        rightAnswer = "There are no native people of Antarctica"
         question = binding.question.text.toString()
 
         toolbar = binding.toolbar

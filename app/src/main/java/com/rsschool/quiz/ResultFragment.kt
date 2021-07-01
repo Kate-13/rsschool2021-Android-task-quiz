@@ -61,8 +61,8 @@ class ResultFragment : Fragment() {
 
         resultCount = arguments?.getInt(RESULT_KEY) ?: throw IllegalArgumentException()
 
-        binding.result.text = "Ваш результат: $resultCount из 5"
-        textResult = "Ваш результат: $resultCount из 5\n\n"
+        binding.result.text = "Your result: $resultCount from 5"
+        textResult = "Your result: $resultCount from 5\n\n"
 
         resultTextList = textResult + arguments?.getString(RESULT_LIST) ?: throw IllegalArgumentException()
 

@@ -65,14 +65,14 @@ class FourthQuizFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.question.text = "Какое животное говорит Кукареку?"
-        binding.option1.text = "Кот"
-        binding.option2.text = "Собака"
-        binding.option3.text = "Петух"
-        binding.option4.text = "Сова"
-        binding.option5.text = "Корова"
+        binding.question.text = "Antarctica is the worlds coldest continent, it is also, the worlds:"
+        binding.option1.text = "Furthest away continent"
+        binding.option2.text = "Windiest continent"
+        binding.option3.text = "Foggiest continent"
+        binding.option4.text = "Sunniest continent"
+        binding.option5.text = "Rainiest continent"
 
-        rightAnswer = "Петух"
+        rightAnswer = "Windiest continent"
         question = binding.question.text.toString()
 
         nextButton = binding.nextButton

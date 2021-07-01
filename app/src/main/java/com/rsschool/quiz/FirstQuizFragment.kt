@@ -65,19 +65,19 @@ class FirstQuizFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.question.text = "Какое животное говорит Мяу?"
-        binding.option1.text = "Кот"
-        binding.option2.text = "Собака"
-        binding.option3.text = "Петух"
-        binding.option4.text = "Сова"
-        binding.option5.text = "Корова"
+        binding.question.text = "Which of these animals do you NOT get in Antarctica?"
+        binding.option1.text = "Penguins"
+        binding.option2.text = "Whales"
+        binding.option3.text = "Polar bears"
+        binding.option4.text = "Seals"
+        binding.option5.text = "Dolphins"
 
         nextButton = binding.nextButton
         previousButton = binding.previousButton
         previousButton?.isEnabled = false
         nextButton?.isEnabled = false
         question = binding.question.text.toString()
-        rightAnswer = "Кот"
+        rightAnswer = "Polar bears"
 
 
         val radioGroup = binding.radioGroup
